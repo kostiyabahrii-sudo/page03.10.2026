@@ -1,0 +1,10 @@
+{% if saved %}
+  <h1>Спасибо, почта сохранена.</h1>
+{% else %}
+  <h1>Оставьте свою почту</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+  </form>
+{% endif %}
