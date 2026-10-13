@@ -5,28 +5,32 @@ from django.test import TestCase
 from .models import Subscriber
 
 
-class ApiSubscribeTests(TestCase):
-    url = "/api/subscribe/"
+class ApiWaitlistTests(TestCase):
+    url = "/api/waitlist"
 
     def post(self, payload, **extra):
         return self.client.post(
             self.url, data=json.dumps(payload), content_type="application/json", **extra
         )
 
-    def test_creates_subscriber(self):
+    def test_adds_email(self):
         response = self.post({"email": "a@example.com"})
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()["email"], "a@example.com")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "added"})
         self.assertTrue(Subscriber.objects.filter(email="a@example.com").exists())
 
-    def test_invalid_email(self):
-        response = self.post({"email": "not-an-email"})
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("email", response.json()["errors"])
-
-    def test_duplicate_email(self):
+    def test_existing_email(self):
         Subscriber.objects.create(email="a@example.com")
-        response = self.post({"email": "a@example.com"})
+        response = self.post({"email": "  A@Example.com "})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "exists"})
+        self.assertEqual(Subscriber.objects.count(), 1)
+
+    def test_invalid_email(self):
+        self.assertEqual(self.post({"email": "not-an-email"}).status_code, 400)
+
+    def test_invalid_json(self):
+        response = self.client.post(self.url, data="{", content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
     def test_get_not_allowed(self):

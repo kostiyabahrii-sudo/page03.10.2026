@@ -1,11 +1,15 @@
 import json
 
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.db import IntegrityError
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import SubscriberForm
+from .models import Subscriber
 
 def subscribe(request):
     form = SubscriberForm(request.POST or None)
@@ -19,19 +23,22 @@ def subscribe(request):
 
 @csrf_exempt
 @require_POST
-def api_subscribe(request):
-    """JSON API для React: POST {"email": "..."} -> 201 або 400 з помилками."""
+def api_waitlist(request):
+    """JSON API для React: POST {"email": "..."} -> 200 {"status": "added" | "exists"}."""
     try:
         data = json.loads(request.body or b"{}")
     except json.JSONDecodeError:
-        return JsonResponse({"errors": {"__all__": ["Невірний JSON."]}}, status=400)
+        return JsonResponse({"error": "Невірний JSON."}, status=400)
 
-    form = SubscriberForm(data)
-    if not form.is_valid():
-        return JsonResponse({"errors": form.errors}, status=400)
+    email = str(data.get("email", "")).strip().lower()
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse({"error": "Невірна адреса пошти."}, status=400)
 
-    subscriber = form.save()
-    return JsonResponse(
-        {"id": subscriber.id, "email": subscriber.email},
-        status=201,
-    )
+    try:
+        _, created = Subscriber.objects.get_or_create(email=email)
+    except IntegrityError:
+        # Хтось одночасно додав ту саму адресу.
+        created = False
+    return JsonResponse({"status": "added" if created else "exists"})
