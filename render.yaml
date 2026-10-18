@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: waitlist-backend
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false # рядок підключення з Neon
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false # адреса фронту, напр. https://waitlist-frontend.onrender.com
