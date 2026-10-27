@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import api_waitlist, subscribe
+from users.views import api_waitlist, api_waitlist_source, subscribe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", subscribe),
     path("api/waitlist", api_waitlist),
+    path("api/waitlist/source", api_waitlist_source),
 ]
