@@ -56,7 +56,7 @@ export const TEAM = {
     {
       name: "Kostyantin",
       role: "Backend developer",
-      bio: "Placeholder. Background and role at Fitkit.",
+      bio: "Builds Fitkit’s backend: Django APIs, database and deployment. Shipped the waitlist that collects early users.",
       photo: "/team/kostyantin.jpg",
       linkedin: null,
     },
