@@ -32,11 +32,15 @@ Build-time env vars:
 - `VITE_WAITLIST_URL` — where “Join waitlist” goes
 - `VITE_STORE_URL` — where “Open in store” goes
 
-## Deploy
+## Deploy (Vercel)
 
-It's a single-page app: the host must rewrite every path to `/index.html`
-(on Render static sites: Redirects/Rewrites → `/*` → `/index.html`, Rewrite).
-`npm run dev` proxies `/api` to `http://localhost:8000` if the backend is needed later.
+Import the repo in Vercel and set **Root Directory** to `investors`.
+Framework preset Vite is detected automatically (build `npm run build`,
+output `dist`). Add `VITE_WAITLIST_URL` and `VITE_STORE_URL` in
+Settings → Environment Variables, then redeploy.
+
+`vercel.json` rewrites every path to `/index.html`, so direct links such as
+`/team` work. Real files (JS, CSS, images) are served before the rewrite.
 
 ## Style notes
 
