@@ -23,29 +23,41 @@ export const ABOUT = {
 };
 
 export const TEAM = {
-  title: "Team",
+  title: "Core team",
+  // Wide group photo shown under the nav. Leave src null to hide it.
   photo: {
     src: null,
     alt: "The Fitkit team",
     placeholder: "Team photo — wide, 16:9",
   },
+  // Portraits: 4:5, faces near the top third. Files live in public/team/.
   members: [
     {
-      name: "Name Surname",
-      role: "Co-founder, CEO",
-      bio: "Placeholder. Background, previous experience, what they own at Fitkit.",
+      name: "Mariia",
+      role: "Founder, UI/UX designer",
+      bio: "3 years of experience in web design, nonprofit cofounder.",
+      photo: "/team/mariia.jpg",
       linkedin: null,
     },
     {
-      name: "Name Surname",
-      role: "Co-founder, CTO",
-      bio: "Placeholder. Background, previous experience, what they own at Fitkit.",
+      name: "Ivan",
+      role: "Cofounder, full-stack developer",
+      bio: "Ex-software developer at WiterOK startup, platinum Infomatrix winner.",
+      photo: "/team/ivan.jpg",
       linkedin: null,
     },
     {
-      name: "Name Surname",
-      role: "Design",
-      bio: "Placeholder. Background, previous experience, what they own at Fitkit.",
+      name: "Sophiia",
+      role: "Marketing strategist",
+      bio: "Ex-marketing intern in the US.",
+      photo: "/team/sophiia.jpg",
+      linkedin: null,
+    },
+    {
+      name: "Kostyantin",
+      role: "Backend developer",
+      bio: "Placeholder. Background and role at Fitkit.",
+      photo: "/team/kostyantin.jpg",
       linkedin: null,
     },
   ],

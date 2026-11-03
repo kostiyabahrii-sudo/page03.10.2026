@@ -35,7 +35,7 @@ export default function App() {
     <>
       <header className="top">
         <NavLink to="/" className="brand" aria-label={`${BRAND} home`}>
-          <img src="/favicon.svg" alt="" width="22" height="22" />
+          <img src="/logo.png" alt="" width="34" height="34" />
           <span>{BRAND}</span>
         </NavLink>
 
